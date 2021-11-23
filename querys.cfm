@@ -4,6 +4,16 @@
 </cfscript>
 
 <!---tags--->
+<cftry>
+	<cfquery name="myQuery" datasource="cfartgaller2y">
+		SELECT * FROM artists
+	</cfquery>
+	
+	<cfcatch type="any">
+		<cfdump var="#cfcatch#">
+	</cfcatch>
+</cftry>
+
 <cfquery name="myQuery" datasource="cfartgallery">
 	SELECT * FROM artists
 </cfquery>

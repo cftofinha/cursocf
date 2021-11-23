@@ -1,5 +1,13 @@
-<cfset myName="Francisco Paulino" />
-<cfset myPosition="ColdFusion Developer" />
+﻿<cfsilent>
+<!---<cfset variables.myName="Francisco Paulino" />
+<cfset variables.myPosition="ColdFusion Developer" />
+--->
+<cfset variables.dataHoraAtual = lsDateFormat(now(), 'dd/mm/yyy') &" às "& lsTimeFormat(now(), 'HH:mm:ss') /> 
+<cfparam name="url.myName" default="Francisco Paulino">
+<cfparam name="url.myPosition" default="ColdFusion Developer">
+<cfset variables.conteudoDev = "Professional Web design and Development and specializes in developing 
+							<span>clean, effective and smart&nbsp;&nbsp;</span>websites" />
+</cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -78,8 +86,8 @@
 							<div class="top-left" >
 								<!-- Data Output -->
 								<!---This is where the name and position are output--->
-								<div class="tag">HELLO, <span>I'M <cfoutput>#myName#</cfoutput>,</span></div>
-								<div class="sub-tag"><cfoutput>#myPosition#</cfoutput></div>
+								<div class="tag">HELLO, <span>I'M <cfoutput>#url.myName# - #variables.dataHoraAtual#</cfoutput>,</span></div>
+								<div class="sub-tag"><cfoutput>#url.myPosition#</cfoutput></div>
 							</div> 
 						</div>
 					</div>
@@ -89,7 +97,9 @@
 						<div class="pat-topright">&nbsp;</div>
 					</div>
 					<div class="clr pat" >
-						<p>Professional Web design and Development and specializes in developing <span>clean, effective and smart&nbsp;&nbsp;</span>websites.</p>
+						<p>
+							<cfoutput>#variables.conteudoDev#</cfoutput>
+						</p>
 					</div>
 					<div class="clr">
 						<div class="pat-bottomleft">&nbsp;</div>
@@ -99,46 +109,35 @@
 						<h2>Specialising in</h2>
 						<div class="special">
 							Lorem ipsum dolor sit amet, habitasse pretium dolor sociis. Nulla et facilisis interdum elit amet.
-							
-							<cfset aFoo = ["one", "two", "three", "four"] />
-							<cfoutput>
-								<cfloop array="#aFoo#" index="x">
-									<li>#x#</li>
-								</cfloop>
-							</cfoutput>
-							<br>
-							<strong>ColdFusion 2016 a 2021</strong><br>
-							<cfoutput>
-								<cfloop array="#aFoo#" item="x" index="i">
-									<li>#i# | #x#</li>
-								</cfloop>
-							</cfoutput>
-							<br><br>
-							<cfscript>
-								for (x in aFoo) {
-									writeOutput("<li>" & x & "</li>");
-								}
-							</cfscript>
 						</div>
 					</div>
 					<div class="clr">
-						<div> 
-							<div class="coldfusion">
-								<img src='assets/images/coldfusion-image.png'  border="0" height="" alt=" "  />
-								<h3>ColdFusion<br />Coding</h3>
-							</div>
-							<div class="jquery">
-								<img src='assets/images/jquery-image.png'  border="0" height="" alt=" " />
-								<h3>jQuery <br />Customisation</h3>
-							</div>
-							<div class="css">
-								<img src='assets/images/css-image.png'  border="0" height="" alt=" "  />
-								<h3>CSS 3<br />Customisation</h3>
-							</div>
-							<div class="html">
-								<img src='assets/images/html-image.png' alt=" " height=""  border="0" />
-								<h3>HTML 5<br /> Customisation</h3>
-							</div>
+						<div>
+							<!---<cfset arrDataTecnologias = [] />
+							<cfset arrDataTecnologias[1] = {nome='ColdFusion<br />Coding', imagem='coldfusion-image.png', css="coldfusion"} />
+							<cfset arrDataTecnologias[2] = {nome='jQuery <br />Customisation', imagem='jquery-image.png', css="jquery"} />
+							<cfset arrDataTecnologias[3] = {nome='CSS 3<br />Customisation', imagem='css-image.png', css="css"} />
+							<cfset arrDataTecnologias[4] = {nome='HTML 5<br /> Customisation', imagem='html-image.png.png, css="html"'} />--->
+							<!---<cfdump var="#arrDataTecnologias#">--->
+							
+							<cfset listDataTecnologias = 'ColdFusion,jQuery,CSS,HTML'>
+							<cfoutput>
+								<cfloop list="#listDataTecnologias#" index="valorDaLista" delimiters=",">
+									<div class="#lCase(valorDaLista)#">
+										<img src='assets/images/#lCase(valorDaLista)#-image.png'  border="0" height="" alt=" "  />
+										<cfif not compareNocase(valorDaLista, 'ColdFusion')>
+											<h3>#valorDaLista#<br />Coding</h3>
+										<cfelseif not compareNocase(valorDaLista, 'jQuery')>
+											<h3>#valorDaLista# <br />Customisation</h3>
+										<cfelseif not compareNocase(valorDaLista, 'CSS')>
+											<h3>#valorDaLista# 3<br />Customisation</h3>
+										<cfelseif not compareNocase(valorDaLista, 'HTML')>
+											<h3>#valorDaLista# 5<br />Customisation</h3>
+										</cfif>
+									</div>
+								</cfloop>
+							</cfoutput>
+
 						</div>
 					</div>
 					<div class="clr bottom-space"></div>

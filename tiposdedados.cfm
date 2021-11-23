@@ -7,6 +7,8 @@ aString: <cfoutput>#aString#</cfoutput><br>
 aNumber: <cfoutput>#aNumber#</cfoutput><br>
 aStringAndANumber: <cfoutput>#aStringAndANumber#</cfoutput><br>
 <br><br>
+
+
 <cfsavecontent variable="EmailContent">
 	Testando
 	Conteúdo para e-mail
