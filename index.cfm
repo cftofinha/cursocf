@@ -99,6 +99,26 @@
 						<h2>Specialising in</h2>
 						<div class="special">
 							Lorem ipsum dolor sit amet, habitasse pretium dolor sociis. Nulla et facilisis interdum elit amet.
+							
+							<cfset aFoo = ["one", "two", "three", "four"] />
+							<cfoutput>
+								<cfloop array="#aFoo#" index="x">
+									<li>#x#</li>
+								</cfloop>
+							</cfoutput>
+							<br>
+							<strong>ColdFusion 2016 a 2021</strong><br>
+							<cfoutput>
+								<cfloop array="#aFoo#" item="x" index="i">
+									<li>#i# | #x#</li>
+								</cfloop>
+							</cfoutput>
+							<br><br>
+							<cfscript>
+								for (x in aFoo) {
+									writeOutput("<li>" & x & "</li>");
+								}
+							</cfscript>
 						</div>
 					</div>
 					<div class="clr">
