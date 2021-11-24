@@ -113,15 +113,21 @@
 					</div>
 					<div class="clr">
 						<div>
-							<!---<cfset arrDataTecnologias = [] />
-							<cfset arrDataTecnologias[1] = {nome='ColdFusion<br />Coding', imagem='coldfusion-image.png', css="coldfusion"} />
-							<cfset arrDataTecnologias[2] = {nome='jQuery <br />Customisation', imagem='jquery-image.png', css="jquery"} />
-							<cfset arrDataTecnologias[3] = {nome='CSS 3<br />Customisation', imagem='css-image.png', css="css"} />
-							<cfset arrDataTecnologias[4] = {nome='HTML 5<br /> Customisation', imagem='html-image.png.png, css="html"'} />--->
+							<cfset arrDataTecnologias = [
+															{nome='ColdFusion<br />Coding', imagem='coldfusion-image.png', css='coldfusion'},
+															{nome='jQuery <br />Customisation', imagem='jquery-image.png', css='jquery'},
+															{nome='CSS 3<br />Customisation', imagem='css-image.png', css='css'},
+															{nome='HTML 5<br /> Customisation', imagem='html-image.png', css='html'}
+														] />
 							<!---<cfdump var="#arrDataTecnologias#">--->
-							
-							<cfset listDataTecnologias = 'ColdFusion,jQuery,CSS,HTML'>
 							<cfoutput>
+								<cfloop array ="#arrDataTecnologias#" index="data">
+									<div class="#data.css#">
+										<img src='assets/images/#data.imagem#'  border="0" height="" alt=" "  />
+										<h3>#data.nome#</h3>
+									</div>
+								</cfloop>
+								<!--- <cfset listDataTecnologias = 'ColdFusion,jQuery,CSS,HTML'>
 								<cfloop list="#listDataTecnologias#" index="valorDaLista" delimiters=",">
 									<div class="#lCase(valorDaLista)#">
 										<img src='assets/images/#lCase(valorDaLista)#-image.png'  border="0" height="" alt=" "  />
@@ -135,9 +141,8 @@
 											<h3>#valorDaLista# 5<br />Customisation</h3>
 										</cfif>
 									</div>
-								</cfloop>
+								</cfloop>--->
 							</cfoutput>
-
 						</div>
 					</div>
 					<div class="clr bottom-space"></div>
