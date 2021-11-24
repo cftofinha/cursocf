@@ -1,6 +1,39 @@
-<cfscript>
-	personalInfo = {name='Francisco Paulino', dob='1/04/1975', address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', website='http://www.adobe.com/products/coldfusion', skype='cftofinha'};
-</cfscript>	
+<cfparam name="form.nome" default="Tofinha">
+<cfif isDefined("form.no_usuario") and compareNocase(form.id, "")>
+	<cfquery datasource="#application.datasource#">
+		update tb_personal_info set 
+		no_usuario = <cfqueryparam value="#form.no_usuario#" cfsqltype="cf_sql_varchar" maxlength="50">
+		where id = <cfqueryparam value="#form.id#" cfsqltype="cf_sql_integer" maxlength="4">
+	</cfquery>
+	<cfset form.nome = "#form.no_usuario#">
+</cfif>
+<cfif isDefined("url.salvar") and not compareNoCase(url.salvar, 'banco')>
+	<cfif isDefined("url.nome") and compareNoCase(url.nome, '')>
+		<cfquery datasource="#application.datasource#">
+			insert into tb_personal_info (no_usuario, dt_nascimento, ds_endereco, nu_telefone, ds_email, ds_site, no_skype)
+			values('#url.nome#', '04/01/1975', 'Águas Claras - Brasilia/DF', '(61) 98332-4846', 'tofinha@gmail.com', 'http://www.adobe.com/products/coldfusion', 'cftofinha')
+		</cfquery>
+	</cfif>
+</cfif>
+
+<cfquery name="qDados" datasource="#application.datasource#">
+	select id, no_usuario, dt_nascimento, ds_endereco, nu_telefone, 
+		ds_email, ds_site, no_skype
+	from tb_personal_info
+	where no_usuario = <cfqueryparam value="#form.nome#" cfsqltype="cf_sql_varchar" maxlength="50">
+</cfquery>
+
+<cfif qDados.recordCount gt 0>
+	<cfscript>
+		personalInfo = {name='#qDados.no_usuario#', dob='#qDados.dt_nascimento#', address='#qDados.ds_endereco#', phonenumber='#qDados.nu_telefone#', email='#qDados.ds_email#', website='#qDados.ds_site#', skype='#qDados.no_skype#'};
+	</cfscript>
+<cfelse>
+	<cfscript>
+		personalInfo = {name='Tofinha', dob='23/11/2021', address='Águas Claras', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', website='http://www.adobe.com/products/coldfusion', skype='cftofinha'};
+	</cfscript>	
+</cfif>
+<!---<cfdump var="#personalInfo#">
+<cfabort>--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -77,7 +110,7 @@
 					<div class="clr">
 						<div class="top-bg1">
 							<div class="top-left">
-								<div><h1>About me</h1></div>
+								<div><h1>About me - <cfoutput>#session.nomeUsuario#</cfoutput></h1></div>
 							</div> 
 						</div>
 						<div class="clr">
@@ -109,6 +142,18 @@
 								<li class="social-list-twitter"> <span>Twitter Profile</span> <a href="http://twitter.com/username">http://twitter.com/username</a> </li>
 								<li class="social-list-facebook"> <span>Facebook Profile</span> <a href="http://facebook.com/username">http://facebook.com/username</a> </li>
 							</ul>
+							
+							<form name="formRegistro" id="formRegistro" method="post" action="about.cfm">
+								<cfoutput>
+								<label>Nome</label>
+								<input type="hidden" name="id" id="id" value="#qDados.id#">
+								<input type="text" name="no_usuario" id="no_usuario" value="#qDados.no_usuario#">
+									
+								<input type="submit" value="Salvar dados">
+								</cfoutput>
+							</form>
+							
+							
 						</div>
 						<!-- Personal Information Output -->
 						<div class="right">
@@ -133,5 +178,7 @@
 		</div>		  <!--content end -->	
 		<div class="bottom-shade"></div>
 	</div>  <!--Container / wrapper end -->	
+	<cfdump var="#form#">
+	<cfdump var="#qDados#">
 </body>
 </html>

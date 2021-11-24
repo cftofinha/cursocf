@@ -1,13 +1,19 @@
 ﻿<cfsilent>
 <!---<cfset variables.myName="Francisco Paulino" />
 <cfset variables.myPosition="ColdFusion Developer" />
---->
-<cfset variables.dataHoraAtual = lsDateFormat(now(), 'dd/mm/yyy') &" às "& lsTimeFormat(now(), 'HH:mm:ss') /> 
-<cfparam name="url.myName" default="Francisco Paulino">
+---> 
+<cfquery name="qConsulta" datasource="#application.datasource#">
+	select id, name, imagem, css
+	from category
+	order by name asc 
+</cfquery>
+<cfparam name="url.myName" default="#session.nomeUsuario#">
+<cfset session.nome = url.myName />
 <cfparam name="url.myPosition" default="ColdFusion Developer">
 <cfset variables.conteudoDev = "Professional Web design and Development and specializes in developing 
 							<span>clean, effective and smart&nbsp;&nbsp;</span>websites" />
 </cfsilent>
+<!---<cfdump var="#qConsulta#"><cfabort>--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -16,7 +22,7 @@
 	<meta name="keywords" content="jquery, Responsive Vcard, Template, Vcard, Clean Slide" />
 	<meta http-equiv="X-UA-Compatible" content="IE=9" />
 	<meta http-equiv="X-UA-Compatible" content="IE=7" />
-	<title>This is my WebSite</title>
+	<title><cfoutput>#application.site#</cfoutput></title>
 	
 	<!-- Loading Google Web fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css' />
@@ -113,20 +119,20 @@
 					</div>
 					<div class="clr">
 						<div>
-							<cfset arrDataTecnologias = [
-															{nome='ColdFusion<br />Coding', imagem='coldfusion-image.png', css='coldfusion'},
-															{nome='jQuery <br />Customisation', imagem='jquery-image.png', css='jquery'},
-															{nome='CSS 3<br />Customisation', imagem='css-image.png', css='css'},
-															{nome='HTML 5<br /> Customisation', imagem='html-image.png', css='html'}
-														] />
 							<!---<cfdump var="#arrDataTecnologias#">--->
-							<cfoutput>
-								<cfloop array ="#arrDataTecnologias#" index="data">
+							<cfoutput query="qConsulta">
+								<!---<cfloop query="qConsulta">--->
+									<div class="#qConsulta.css#">
+										<img src='assets/images/#qConsulta.imagem#'  border="0" height="" alt=" "  />
+										<h3>#qConsulta.name#</h3>
+									</div>
+								<!---</cfloop>--->
+								<!---<cfloop array ="#arrDataTecnologias#" index="data">
 									<div class="#data.css#">
 										<img src='assets/images/#data.imagem#'  border="0" height="" alt=" "  />
 										<h3>#data.nome#</h3>
 									</div>
-								</cfloop>
+								</cfloop>--->
 								<!--- <cfset listDataTecnologias = 'ColdFusion,jQuery,CSS,HTML'>
 								<cfloop list="#listDataTecnologias#" index="valorDaLista" delimiters=",">
 									<div class="#lCase(valorDaLista)#">
@@ -155,5 +161,9 @@
 		</div>		  <!--content end -->	
 		<div class="bottom-shade"></div>
 	</div>  <!--Container / wrapper end -->	
+	<!---<cfset StructClear(Session)>--->
+	<!---<cfset StructDelete(Session, "nome")>--->
+	<cfdump var="#session.nome#"> - <cfdump var="#session.nomeUsuario#">
+	<!---<cfdump var="#variables#">--->
 </body>
 </html>

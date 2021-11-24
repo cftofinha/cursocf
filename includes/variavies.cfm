@@ -1,0 +1,1 @@
+<cfset variables.dataHoraAtual = lsDateFormat(now(), 'dd/mm/yyyy') &" - "& lsTimeFormat(now(), 'HH:mm:ss') />
