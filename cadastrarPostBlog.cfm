@@ -1,3 +1,8 @@
+<cfquery name="qCategorias" datasource="#application.datasource#">
+	select id, name
+	from category
+	order by name asc 
+</cfquery>
 <cfquery name="qUser" datasource="#application.datasource#">
 	select id, no_usuario
 	from tb_personal_info
@@ -5,6 +10,20 @@
 		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
 	</cfif>
 </cfquery>
+<cfset variables.idUsuario = qUser.id />
+<cfquery name="qPosts" datasource="#application.datasource#">
+	select * from blogPost
+</cfquery>
+<cfset variables.acaoForm = "novo">
+<cfset variables.txtForm = "Novo registro de Post" />
+<!---<cfif qPosts.recordCount gt 0>
+	<cfset variables.acaoForm = "atualizar">
+	<cfset variables.txtForm = "Atualizar dados do Post" />
+<cfelse>
+	<cfset variables.acaoForm = "novo">
+	<cfset variables.txtForm = "Novo registro de Post" />
+</cfif>--->
+
 <cfset contactInfo = {address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', skype='cftofinha'} />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -101,35 +120,45 @@
 						<div class="left">
 							<div class="clr">
 								<div id="respond">
-									<h2>Dados</h2>
+									<h2><cfoutput>#variables.txtForm#</cfoutput></h2>
 									<!-- Message Output -->
 									<div id="post_message" class="post_message"></div>
 									
 									<div class="boxBody">			  
 										<div class="desc">
-											<form name="form" id="form" action="acoesBlog.cfm" method="post">
-												<input type="hidden" name="acaoForm" id="acaoForm" value="novo">
-												<input type="hidden" name="idUsuario" id="idUsuario" value="#qUser.id#">
-												<div>
-													<label>Título <span class="font-11">(required)</span></label>
-													<input name="title" id="title" type="text" class="required" />
-												</div>
-												<div>
-													<label>Data de postagem <span class="font-11">(required)</span></label>
-													<input name="dateposted" id="dateposted" type="text" class="required" />
-												</div>
-												<div class="textarea">
-													<label>Resumo <span class="font-11">(required)</span></label>				
-													<textarea name="summary" id="summary" rows="6" cols="60" class="required"></textarea>		
-												</div>
-												<div class="textarea">
-													<label>Conteúdo <span class="font-11">(required)</span></label>				
-													<textarea name="body" id="body" rows="6" cols="60" class="required"></textarea>		
-												</div>
-												<div>
-													<input id="submitBtn" value="Salvar" name="submit" type="submit" class="submitBtn" />
-												</div>
-											</form>	
+											<cfoutput>
+												<form name="form" id="form" action="acoesBlog.cfm" method="post">
+													<input type="hidden" name="acaoForm" id="acaoForm" value="#variables.acaoForm#">
+													<input type="hidden" name="idUsuario" id="idUsuario" value="#variables.idUsuario#">
+													<div>
+														<label>Categoria <span class="font-11">(required)</span></label>
+														<select name="idCategoria" id="idCategoria">
+															<cfloop query="qCategorias">
+																<option value="#qCategorias.id#">#qCategorias.name#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div>
+														<label>Título <span class="font-11">(required)</span></label>
+														<input name="title" id="title" type="text" class="required" />
+													</div>
+													<div>
+														<label>Data de postagem <span class="font-11">(required)</span></label>
+														<input name="dateposted" id="dateposted" type="text" class="required" value="#lsDateFormat(now(), 'dd/mm/yyyy')#" />
+													</div>
+													<div class="textarea">
+														<label>Resumo <span class="font-11">(required)</span></label>				
+														<textarea name="summary" id="summary" rows="6" cols="60" class="required"></textarea>		
+													</div>
+													<div class="textarea">
+														<label>Conteúdo <span class="font-11">(required)</span></label>				
+														<textarea name="body" id="body" rows="6" cols="60" class="required"></textarea>		
+													</div>
+													<div>
+														<input id="submitBtn" value="Salvar" name="submit" type="submit" class="submitBtn" />
+													</div>
+												</form>
+											</cfoutput>
 										</div><!--END desc show--> 
 									<!--END desc-->	
 									</div>					

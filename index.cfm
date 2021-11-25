@@ -6,7 +6,7 @@
 		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
 	</cfif>
 </cfquery>
-
+<!---<cfdump var="#qUser#"><cfabort>--->
 <cfquery name="qConsulta" datasource="#application.datasource#">
 	select id, name, imagem, css
 	from category
@@ -69,12 +69,12 @@
 						<div id="nav-wrap">
 							<ul class="arrowunderline" id="nav">
 								<li class="home" id="selected"><a href="index.cfm">Home</a></li>
-								<li class="about"><a href="about.cfm">About</a></li>
-								<li class="resume"><a href="resume.cfm">Resume</a></li>
+								<li class="about"><a href="cadastrarUsuario.cfm?idUsuario=<cfoutput>#qUser.id#</cfoutput>">Usuário</a></li>
+								<!---<li class="resume"><a href="resume.cfm">Resume</a></li>--->
 								<li class="blog"><a href="blog.cfm">Blog</a></li>
-								<li class="portfolio"><a href="portfolio.cfm">Portfolio</a></li>
+								<!---<li class="portfolio"><a href="portfolio.cfm">Portfolio</a></li>--->
 								<li class="contact"><a href="contact.cfm">Contact</a></li>
-								<li class="contact"><a href="cadastrarPosBlog.cfm&idUsuario=<cfoutput>#qUser.id#</cfoutput>">Cadastrar Post Blog</a></li>	
+								<li class="contact"><a href="cadastrarPostBlog.cfm?idUsuario=<cfoutput>#qUser.id#</cfoutput>">Post Blog</a></li>	
 							</ul>
 						</div>
 					</div>

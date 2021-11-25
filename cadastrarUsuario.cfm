@@ -1,3 +1,23 @@
+<cfif isDefined('url.idUsuario') and compareNoCase(url.idUsuario, '') and isNumeric(url.idUsuario)>
+	<cfset variables.idUsuario = url.idUsuario>
+<cfelse>
+	<cfset variables.idUsuario = 0>
+</cfif>
+<cfquery name="qUser" datasource="#application.datasource#">
+	select id, no_usuario, dt_nascimento , ds_endereco , nu_telefone
+			, ds_email, ds_site, no_skype
+	from tb_personal_info
+	where id = <cfqueryparam value="#variables.idUsuario#" cfsqltype="cf_sql_integer" maxlength="4">
+</cfquery>
+<cfif qUser.recordCount gt 0>
+	<cfset variables.acaoForm = "atualizar">
+	<cfset variables.idUsuario = qUser.id />
+	<cfset variables.txtForm = "Atualizar dados" />
+<cfelse>
+	<cfset variables.acaoForm = "novo">
+	<cfset variables.idUsuario = 0 />
+	<cfset variables.txtForm = "Novo registro" />
+</cfif>
 <cfset contactInfo = {address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', skype='cftofinha'} />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -94,47 +114,50 @@
 						<div class="left">
 							<div class="clr">
 								<div id="respond">
-									<h2>Dados</h2>
+									<h2><cfoutput>#variables.txtForm#</cfoutput></h2>
 									<!-- Message Output -->
 									<div id="post_message" class="post_message"></div>
 									
 									<div class="boxBody">			  
 										<div class="desc">
+											<cfoutput>
 											<form name="form" id="form" action="acoesUsuario.cfm" method="post">
-												<input type="hidden" name="acaoForm" id="acaoForm" value="novo">
+												<input type="hidden" name="acaoForm" id="acaoForm" value="#variables.acaoForm#">
+												<input type="hidden" name="idUsuario" id="idUsuario" value="#variables.idUsuario#">
 												<div>
 													<label>Nome <span class="font-11">(required)</span></label>
-													<input name="no_usuario" id="no_usuario" type="text" class="required" />
+													<input name="no_usuario" id="no_usuario" type="text" class="required" value="#qUser.no_usuario#" />
 												</div>
 												<div>
 													<label>Data de nascimento <span class="font-11">(required)</span></label>
-													<input name="dt_nascimento" id="dt_nascimento" type="text" class="required" />
+													<input name="dt_nascimento" id="dt_nascimento" type="text" class="required" value="#qUser.dt_nascimento#" />
 												</div>
 												<div>
 													<label>Telefone <span class="font-11">(required)</span></label>
-													<input name="nu_telefone" id="nu_telefone" type="text" class="required" />
+													<input name="nu_telefone" id="nu_telefone" type="text" class="required" value="#qUser.nu_telefone#" />
 												</div>
 												<div>
 													<label>E-mail <span class="font-11">(required)</span></label>				
-													<input name="ds_email" id="ds_email" type="text" class="required email" />		
+													<input name="ds_email" id="ds_email" type="text" class="required email" value="#qUser.ds_email#" />		
 												</div>
 												<div>
 													<label>Skype </label>				
-													<input name="no_skype" id="no_skype" type="text" />		
+													<input name="no_skype" id="no_skype" type="text" value="#qUser.no_skype#" />		
 												</div>
 												<div>
 													<label>Site</label>
-													<input name="ds_site" id="ds_site" type="text" />
+													<input name="ds_site" id="ds_site" type="text" value="#qUser.ds_site#" />
 												</div>
 												<div class="textarea">
 													<label>Endereço <span class="font-11">(required)</span></label>				
-													<textarea name="ds_endereco" id="ds_endereco" rows="6" cols="60" class="required"></textarea>		
+													<textarea name="ds_endereco" id="ds_endereco" rows="6" cols="60" class="required"> #qUser.ds_endereco#</textarea>		
 												</div>
 												
 												<div>
 													<input id="submitBtn" value="Salvar" name="submit" type="submit" class="submitBtn" />
 												</div>
-											</form>	
+											</form>
+											</cfoutput>
 										</div><!--END desc show--> 
 									<!--END desc-->	
 									</div>					

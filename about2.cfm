@@ -1,10 +1,26 @@
-<cfquery name="qDados" datasource="#application.datasource#">
-	select id, no_usuario, dt_nascimento , ds_endereco , nu_telefone
-			, ds_email, ds_site, no_skype
-	from tb_personal_info
-	<cfif isDefined('session.usuarioAtual')>
-		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
+<cfparam name="form.nome" default="Tofinha">
+<cfif isDefined("form.no_usuario") and compareNocase(form.id, "")>
+	<cfquery datasource="#application.datasource#">
+		update tb_personal_info set 
+		no_usuario = <cfqueryparam value="#form.no_usuario#" cfsqltype="cf_sql_varchar" maxlength="50">
+		where id = <cfqueryparam value="#form.id#" cfsqltype="cf_sql_integer" maxlength="4">
+	</cfquery>
+	<cfset form.nome = "#form.no_usuario#">
+</cfif>
+<cfif isDefined("url.salvar") and not compareNoCase(url.salvar, 'banco')>
+	<cfif isDefined("url.nome") and compareNoCase(url.nome, '')>
+		<cfquery datasource="#application.datasource#">
+			insert into tb_personal_info (no_usuario, dt_nascimento, ds_endereco, nu_telefone, ds_email, ds_site, no_skype)
+			values('#url.nome#', '04/01/1975', 'Águas Claras - Brasilia/DF', '(61) 98332-4846', 'tofinha@gmail.com', 'http://www.adobe.com/products/coldfusion', 'cftofinha')
+		</cfquery>
 	</cfif>
+</cfif>
+
+<cfquery name="qDados" datasource="#application.datasource#">
+	select id, no_usuario, dt_nascimento, ds_endereco, nu_telefone, 
+		ds_email, ds_site, no_skype
+	from tb_personal_info
+	where no_usuario = <cfqueryparam value="#form.nome#" cfsqltype="cf_sql_varchar" maxlength="50">
 </cfquery>
 
 <cfif qDados.recordCount gt 0>
@@ -143,10 +159,10 @@
 						<div class="right">
 							<h2>Personal Info</h2>
 							<cfoutput>
-								<div class="clr"><div class="input-box">Name </div><span>#uCase(listFirst(personalInfo.name, " "))#</span> </div>
-								<div class="clr"><div class="input-box">Date of birth </div><span> #lsDateFormat(personalInfo.dob, 'dd/mm/yyyy')#</span></div>
+								<div class="clr"><div class="input-box">Name </div><span>#personalInfo.name#</span> </div>
+								<div class="clr"><div class="input-box">Date of birth </div><span> #personalInfo.dob#</span></div>
 								<div class="clr"><div class="input-box">Address</div><span> #personalInfo.address#</span></div>
-								<div class="clr"><div class="input-box">Phone</div> <span>(#mid(personalInfo.phonenumber, 1,2)#) #mid(personalInfo.phonenumber, 3,5)#-#mid(personalInfo.phonenumber, 8,4)#</span>  </div>
+								<div class="clr"><div class="input-box">Phone</div> <span>#personalInfo.phonenumber#</span>  </div>
 								<div class="clr"><div class="input-box">E-mail</div><span><a href="##">#personalInfo.email#</a></span>  </div>
 								<div class="clr"><div class="input-box">Website </div> <span><a href="##">#personalInfo.website#</a></span> </div> 
 								<div class="clr"><div class="box1">Skype </div> <span><a href="##">#personalInfo.skype#</a></span> </div> 
