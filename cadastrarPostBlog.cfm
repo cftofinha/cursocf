@@ -1,3 +1,10 @@
+<cfquery name="qUser" datasource="#application.datasource#">
+	select id, no_usuario
+	from tb_personal_info
+	<cfif isDefined('session.usuarioAtual')>
+		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
+	</cfif>
+</cfquery>
 <cfset contactInfo = {address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', skype='cftofinha'} />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -102,7 +109,7 @@
 										<div class="desc">
 											<form name="form" id="form" action="acoesBlog.cfm" method="post">
 												<input type="hidden" name="acaoForm" id="acaoForm" value="novo">
-												<input type="hidden" name="idUsuario" id="idUsuario" value="">
+												<input type="hidden" name="idUsuario" id="idUsuario" value="#qUser.id#">
 												<div>
 													<label>Título <span class="font-11">(required)</span></label>
 													<input name="title" id="title" type="text" class="required" />

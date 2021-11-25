@@ -1,7 +1,12 @@
 ﻿<cfsilent>
-<!---<cfset variables.myName="Francisco Paulino" />
-<cfset variables.myPosition="ColdFusion Developer" />
----> 
+<cfquery name="qUser" datasource="#application.datasource#">
+	select id, no_usuario
+	from tb_personal_info
+	<cfif isDefined('session.usuarioAtual')>
+		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
+	</cfif>
+</cfquery>
+
 <cfquery name="qConsulta" datasource="#application.datasource#">
 	select id, name, imagem, css
 	from category
@@ -68,7 +73,8 @@
 								<li class="resume"><a href="resume.cfm">Resume</a></li>
 								<li class="blog"><a href="blog.cfm">Blog</a></li>
 								<li class="portfolio"><a href="portfolio.cfm">Portfolio</a></li>
-								<li class="contact"><a href="contact.cfm">Contact</a></li>	
+								<li class="contact"><a href="contact.cfm">Contact</a></li>
+								<li class="contact"><a href="cadastrarPosBlog.cfm&idUsuario=<cfoutput>#qUser.id#</cfoutput>">Cadastrar Post Blog</a></li>	
 							</ul>
 						</div>
 					</div>
