@@ -101,6 +101,7 @@
 									<div class="boxBody">			  
 										<div class="desc">
 											<form name="form" id="form" action="acoesUsuario.cfm" method="post">
+												<input type="hidden" name="acaoForm" id="acaoForm" value="novo">
 												<div>
 													<label>Nome <span class="font-11">(required)</span></label>
 													<input name="no_usuario" id="no_usuario" type="text" class="required" />
