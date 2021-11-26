@@ -1,28 +1,15 @@
-<cfquery name="qCategorias" datasource="#application.datasource#">
-	select id, name
-	from category
-	order by name asc 
-</cfquery>
-<cfquery name="qUser" datasource="#application.datasource#">
-	select id, no_usuario
-	from tb_personal_info
-	<cfif isDefined('session.usuarioAtual')>
-		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
-	</cfif>
-</cfquery>
+<cfset instComponente = createObject("component","MeuComponente") />
+<cfset qPosts = createObject("component","PostBlog").getPostsBlog() />
+<cfset qCategorias = instComponente.getCategorias() />
+<cfif isDefined("session.usuarioAtual")>
+	<cfset qUser = instComponente.getDadosUser(usuarioAtual: session.usuarioAtual) />
+<cfelse>
+	<cfset qUser = instComponente.getDadosUser() />
+</cfif>
 <cfset variables.idUsuario = qUser.id />
-<cfquery name="qPosts" datasource="#application.datasource#">
-	select * from blogPost
-</cfquery>
+
 <cfset variables.acaoForm = "novo">
 <cfset variables.txtForm = "Novo registro de Post" />
-<!---<cfif qPosts.recordCount gt 0>
-	<cfset variables.acaoForm = "atualizar">
-	<cfset variables.txtForm = "Atualizar dados do Post" />
-<cfelse>
-	<cfset variables.acaoForm = "novo">
-	<cfset variables.txtForm = "Novo registro de Post" />
-</cfif>--->
 
 <cfset contactInfo = {address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', skype='cftofinha'} />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

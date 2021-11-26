@@ -1,17 +1,17 @@
 ﻿<cfsilent>
-<cfquery name="qUser" datasource="#application.datasource#">
-	select id, no_usuario
-	from tb_personal_info
-	<cfif isDefined('session.usuarioAtual')>
-		where no_usuario = <cfqueryparam value="#session.usuarioAtual#" cfsqltype="cf_sql_varchar" maxlength="50">
-	</cfif>
-</cfquery>
+<cfset instComponente = createObject("component","MeuComponente") />
+<cfset variables.nomeCompleto = instComponente.getFullName(firstName="Curso", lastName="Senac de CF") />
+<cfif isDefined("session.usuarioAtual")>
+	<cfset qUser = instComponente.getDadosUser(usuarioAtual: session.usuarioAtual) />
+<cfelse>
+	<cfset qUser = instComponente.getDadosUser() />
+</cfif>
+<cfset qConsulta = instComponente.getCategorias() />
+<!---<cfdump var="#qUser#" label="Usuarios">
+<cfdump var="#qConsulta#" label="Categorias">
+<cfabort>--->
 <!---<cfdump var="#qUser#"><cfabort>--->
-<cfquery name="qConsulta" datasource="#application.datasource#">
-	select id, name, imagem, css
-	from category
-	order by name asc 
-</cfquery>
+
 <cfparam name="url.myName" default="#session.nomeUsuario#">
 <cfset session.nome = url.myName />
 <cfparam name="url.myPosition" default="ColdFusion Developer">
@@ -97,9 +97,18 @@
 						<div class="top-bg">
 							<div class="top-left" >
 								<!-- Data Output -->
+								<!---<cfset StructDelete(Session, "usuarioAtual") />--->
 								<!---This is where the name and position are output--->
-								<div class="tag">HELLO, <span>I'M <cfoutput>#url.myName# - #variables.dataHoraAtual#</cfoutput>,</span></div>
-								<div class="sub-tag"><cfoutput>#url.myPosition#</cfoutput></div>
+								<cfif isDefined("session.usuarioAtual")>
+									<div class="tag">
+										Olá, <span><cfoutput>#session.usuarioAtual#</cfoutput>,</span>
+									</div>
+									<div class="sub-tag"><cfoutput>#url.myPosition#</cfoutput></div>
+								<cfelse>
+									<div class="tag">
+										<span>Usuário não logado</span>
+									</div>
+								</cfif>
 							</div> 
 						</div>
 					</div>

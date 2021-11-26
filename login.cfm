@@ -1,6 +1,4 @@
-<cfset variables.condicoes = " 0 = 0" />
-<cfset qPosts = createObject("component","PostBlog").getPostsBlog(condicoesFiltro: variables.condicoes) />
-<!---<cfdump var="#qPosts#"><cfabort>--->
+<cfset contactInfo = {address='Águas Claras - Brasilia/DF', phonenumber='(61) 98332-4846', email='tofinha@gmail.com', skype='cftofinha'} />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -53,9 +51,9 @@
 								<li class="home"><a href="index.cfm">Home</a></li>
 								<li class="about"><a href="about.cfm">About</a></li>
 								<li class="resume"><a href="resume.cfm">Resume</a></li>
-								<li class="blog" id="selected"><a href="blog.cfm">Blog</a></li>
+								<li class="blog"><a href="blog.cfm">Blog</a></li>
 								<li class="portfolio"><a href="portfolio.cfm">Portfolio</a></li>
-								<li class="contact"><a href="contact.cfm">Contact</a></li>	
+								<li class="contact" id="selected"><a href="contact.cfm">Contact</a></li>	
 							</ul>
 						</div>
 					</div>
@@ -68,16 +66,16 @@
 		<!--header end -->
 		
 		<!-- Content Start -->
-    
+  	
 		<!--Card  -->
 		<div id="content">
 			<div class="card-pattern">
-				<!-- blog -->
-				<div id="blog">
+				<!-- contact -->
+				<div id="contact">
 					<div class="clr">
 						<div class="top-bg1">
 							<div class="top-left">
-								<div><h1>Blog</h1></div>
+								<div><h1>Login</h1></div>
 							</div> 
 						</div>
 						<div class="clr">
@@ -85,47 +83,73 @@
 							<div class="pat-bottomright">&nbsp;</div>
 						</div>
 					</div>
-					<div class="blog-top">	
+					<div class="clr">
 						<div class="clr">
-							<div class="left">
-								<!-- Blog Posts -->
-								<cfoutput query="qPosts">
-									<!-- Start Blog Post -->
-									<h5><span>#qPosts.dateposted#</span></h5>
-									<h2><a href="blogpost.cfm?id=#qPosts.id#">#qPosts.title#</a></h2>
-									<p>#qPosts.summary#</p>
-									<p class="summary">
-										<strong>Categories:</strong> #qPosts.nomeCategoria# <strong>Comments:</strong> 12
-									</p>
-								</cfoutput>
-								<!-- End Blog Post -->
-								
-							</div>
-							<div class="right" >
-								<h2>Categories</h2>
-								<!-- Blog Categories -->
-								<div id="categories" align="center">
-									<ul>
-										<li><a href="#">ColdFusion</a></li>
-										<li><a href="#">Development</a></li>
-										<li><a href="#">HTML5</a></li>
-										<li><a href="#">Javascript</a></li>
-										<li><a href="#">jQuery</a></li>
-										<li><a href="#">Misc</a></li>
-										<li><a href="#">Video Games</a></li>
-									</ul>
+							<h6>
+								<span>Utilize o formulário abaixo para efetuar login</span>
+							</h6>
+						</div>
+						<div class="clr hline">&nbsp;</div>
+						<div class="left">
+							<div class="clr">
+								<div id="respond">
+									<h2>Dados de acesso - <cfoutput>#hash("admin")#</cfoutput></h2>
+									<!-- Message Output -->
+									<div id="post_message" class="post_message"></div>
+									
+									<div class="boxBody">			  
+										<div class="desc">
+											<form name="form" id="form" action="acoesLogin.cfm" method="post">
+												<div>
+													<label>E-mail <span class="font-11">(required)</span></label>
+													<input name="emailUsuario" id="emailUsuario" type="text" class="required" />
+												</div>
+												<div>
+													<label>Senha <span class="font-11">(required)</span></label>
+													<input name="senhaUsuario" id="senhaUsuario" type="password" class="required" />
+												</div>
+												<div>
+													<input id="submitBtn" value="Logar" name="submit" type="submit" class="submitBtn" />
+												</div>
+												<div>
+													<input id="novaSenhaBtn" value="Esqueceu Senha" name="novaSenhaBtn" type="submit" class="submitBtn" />
+												</div>
+											</form>
+										</div><!--END desc show--> 
+									<!--END desc-->	
+									</div>					
+									<div  class="clr"></div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<!--//left end //-->
+					<div class="right">
+						<div class="clr">
+							<!-- Personal Information -->
+							<h2>Informações de Login</h2>
+							<div class="clr">
+								<div class="pad-top5"></div>
+								<h2>Latest Tweet</h2>
+								<div class="twitter clr"> 
+									<!-- Twitter Output -->
+									<ul>
+										<li>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div><!--//clr end //-->
 					<div class="clr"></div>
-				</div> <!--blog end -->
-
+				</div><!-- contact end -->
+		
 				<div class="clr"></div>
 			</div><!--card pattern end -->
 			<div class="clr "></div>
 		</div>		  <!--content end -->	
 		<div class="bottom-shade"></div>
-	</div>  <!--Container / wrapper end -->	
+	</div>  <!--Container / wrapper end -->
+		
 </body>
 </html>

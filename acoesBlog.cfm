@@ -18,40 +18,19 @@ createdDateTime (datetime: yyyy-mm-dd HH:mm:ss)
 		<cfset variables.dateposted = lsDateFormat(now(), 'yyyy-mm-dd') &" "& lsTimeFormat(now(), 'HH:mm:ss') />
 	</cfif>
 	
-	<cftry>
-		<cfquery datasource="#application.datasource#">
-			insert into blogPost (
-				idUsuario
-				, idCategoria
-				, title
-				, summary
-				, body
-				, dateposted
-				, createdDateTime
-			)
-			values(
-				<cfqueryparam value="#form.idUsuario#" cfsqltype="cf_sql_integer" maxlength="4">
-				, <cfqueryparam value="#form.idCategoria#" cfsqltype="cf_sql_integer" maxlength="4">
-				, <cfqueryparam value="#form.title#" cfsqltype="cf_sql_varchar" maxlength="70">
-				, <cfqueryparam value="#form.summary#" cfsqltype="cf_sql_longvarchar">
-				, <cfqueryparam value="#form.body#" cfsqltype="cf_sql_longvarchar">
-				, <cfqueryparam value="#variables.dateposted#">
-				, <cfqueryparam value="#variables.dataPostagem#">
-			)
-		</cfquery>
-			<h3>Post Cadastrado com sucesso</h3>
-			<p><a href="index.cfm">Retorne a página inicial</a></p>
-			
-			<cfquery name="qCons" datasource="#application.datasource#">
-				select * from blogPost
-			</cfquery>
-			<cfdump var="#qCons#">
-			
-		<cfcatch type="any">
-			<cfdump var="#cfcatch#">
-		</cfcatch>
-		
-	</cftry>
+	<cfscript>
+		instPostBlog = createObject("component","PostBlog");
+		instPostBlog.setCadastrar(
+			#form.idUsuario#
+			,#form.idCategoria#
+			,'#form.title#'
+			,'#form.summary#'
+			,'#form.body#'
+			,'#variables.dateposted#'
+		);
+	</cfscript>
+	
+	<h3>cadastro com sucesso</h3>
 
 <cfelseif isDefined("form.acaoForm") and not compareNoCase(form.acaoForm,"atualizar")>
 <!--- depois --->	
