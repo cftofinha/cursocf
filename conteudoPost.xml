@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<post postid="1">
+		
+			<categoria id="1">
+				<titulo>Testando Post</titulo>
+				<dataPostagem>2021-11-25T19:23:06</dataPostagem>
+				<conteudo>cadastro de conteudo do post</conteudo>
+			</categoria>
+		
+			<categoria id="6">
+				<titulo>Testes Java</titulo>
+				<dataPostagem>2021-11-26T19:26:12</dataPostagem>
+				<conteudo>Conteudo Java</conteudo>
+			</categoria>
+		
+			<categoria id="2">
+				<titulo>Testes Componente</titulo>
+				<dataPostagem>2021-11-26T18:42:07</dataPostagem>
+				<conteudo>Curso CF</conteudo>
+			</categoria>
+		
+	</post>

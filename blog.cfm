@@ -1,6 +1,10 @@
 <cfset variables.condicoes = " 0 = 0" />
-<cfset qPosts = createObject("component","PostBlog").getPostsBlog(condicoesFiltro: variables.condicoes) />
+<!---<cfset qPosts = createObject("component","PostBlog").getPostsBlog(condicoesFiltro: variables.condicoes) />--->
 <!---<cfdump var="#qPosts#"><cfabort>--->
+
+<cfset qPosts = entityLoad('BlogPost') />
+<!---<cfset qPostsToQuery = entityToQuery(qPosts) />
+<cfdump var="#qPostsToQuery#">--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -89,14 +93,22 @@
 						<div class="clr">
 							<div class="left">
 								<!-- Blog Posts -->
-								<cfoutput query="qPosts">
+								<cfoutput>
+									<cfloop array="#qPosts#" index="posts">
+										<h5><span>#dateFormat(posts.dateposted, 'dd/mm/yyyy')#</span></h5>
+										<h2><a href="blogpost.cfm?id=#posts.id#">#posts.title#</a></h2>
+										<p>#posts.summary#</p>
+										<p class="summary">
+											<strong>Categories:</strong> 
+											<cfif arrayLen(posts.categories) gt 0>
+												#posts.categories[1].blogCategory.name#
+											<cfelse>
+												Sem categoria
+											</cfif> 
+											<strong>Comments:</strong> #arrayLen(posts.comments)#
+										</p>
+									</cfloop>
 									<!-- Start Blog Post -->
-									<h5><span>#qPosts.dateposted#</span></h5>
-									<h2><a href="blogpost.cfm?id=#qPosts.id#">#qPosts.title#</a></h2>
-									<p>#qPosts.summary#</p>
-									<p class="summary">
-										<strong>Categories:</strong> #qPosts.nomeCategoria# <strong>Comments:</strong> 12
-									</p>
 								</cfoutput>
 								<!-- End Blog Post -->
 								
@@ -126,6 +138,7 @@
 			<div class="clr "></div>
 		</div>		  <!--content end -->	
 		<div class="bottom-shade"></div>
-	</div>  <!--Container / wrapper end -->	
+	</div>  <!--Container / wrapper end -->
+	<cfdump var="#qPosts#">	
 </body>
 </html>

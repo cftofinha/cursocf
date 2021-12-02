@@ -18,6 +18,7 @@
 <cfset variables.conteudoDev = "Professional Web design and Development and specializes in developing 
 							<span>clean, effective and smart&nbsp;&nbsp;</span>websites" />
 </cfsilent>
+
 <!---<cfdump var="#qConsulta#"><cfabort>--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -101,7 +102,7 @@
 								<!---This is where the name and position are output--->
 								<cfif isDefined("session.usuarioAtual")>
 									<div class="tag">
-										Olá, <span><cfoutput>#session.usuarioAtual#</cfoutput>,</span>
+										Olá, <span><cfoutput>--</cfoutput>,</span>
 									</div>
 									<div class="sub-tag"><cfoutput>#url.myPosition#</cfoutput></div>
 								<cfelse>
@@ -178,7 +179,6 @@
 	</div>  <!--Container / wrapper end -->	
 	<!---<cfset StructClear(Session)>--->
 	<!---<cfset StructDelete(Session, "nome")>--->
-	<cfdump var="#session.nome#"> - <cfdump var="#session.nomeUsuario#">
 	<!---<cfdump var="#variables#">--->
 </body>
 </html>

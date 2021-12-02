@@ -6,18 +6,38 @@
 <cfset instCFCPost = createObject("component","PostBlog") />
 <cfset qPosts = instCFCPost.getPostsBlog(condicoesFiltro: variables.condicoes) />
 <cfif isDefined("form.author") and compareNoCase(form.author,"")>
+	<cftry>
 	<cfscript>
-		qSalvar = instCFCPost.setCadastrarComentario(
+		/*qSalvar = instCFCPost.setCadastrarComentario(
 			blogpostid: #form.idPost#
 			, author: '#form.author#'
 			, comment: '#form.comment#'
-		);
+		);*/
+		
+		salvarPost = entityLoadByPK('BlogPost', form.idPost);  //UPDATE DE REGISTRO EXISTENTE
+		salvarComentario = entityNew('BlogComment'); //INSERT DE NOVOS REGISTROS
+		
+		salvarComentario.setAuthor(form.author);
+		salvarComentario.setComment(form.comment);
+		entitySave(salvarComentario);
+		
+		salvarPost.addComment(salvarComentario);
+		entitySave(salvarPost);
+		
 	</cfscript>
-	
+	<cfcatch type="any">
+		<cfdump var="#cfcatch#">
+		<cfabort>
+	</cfcatch>
+	</cftry>
 </cfif>
 <cfset qComentarios = instCFCPost.getComentariosPostBlog(condicoesFiltro: variables.condicoes) />
-
-
+<!---<cfdump var="#qPosts#" label="qPosts">--->
+<!---<br><hr><br>
+<!---<cfset blogPostOrm = EntityLoadByPK('BlogPost', url.id) />--->
+<cfset blogPostOrm = EntityLoad('BlogPost') />
+<cfdump var="#blogPostOrm#" label="blogPostOrm">
+<cfabort>--->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -109,7 +129,7 @@
 							<div class="left">
 								<!-- Blog Title -->
 								<h2 class="big">
-									#qPosts.title#
+									<a href="ExportToPDF.cfm?id=#qPosts.id#" target="_blank">#qPosts.title#</a>
 								</h2>
 								<!-- Date Published -->
 								<h5>
@@ -117,7 +137,7 @@
 								</h5>
 								<!-- Blog Body -->
 								<p>
-									#qPosts.body#
+									<a href="ExportToXml.cfm?id=#qPosts.id#" target="_blank">#qPosts.body#</a>
 								</p>
 								<!-- Blog Comments Section -->
 								<h3>
