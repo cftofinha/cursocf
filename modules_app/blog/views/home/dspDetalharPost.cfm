@@ -1,4 +1,5 @@
 ﻿<cfscript>
+	//CADASTRANDO NOVOS COMENTÁRIOS
 	if(isDefined("form.author") and compareNoCase(form.author,"")){
 		try {
 			salvarPost = entityLoadByPK('BlogPost', form.idPost);  //UPDATE DE REGISTRO EXISTENTE
@@ -12,6 +13,7 @@
 			entitySave(salvarPost);
 		} catch (any e) {
 			writeOutput("Error: " & e.message);
+			writeDump(e);
 			abort;
 		}
 	}
@@ -63,7 +65,7 @@
 							<p>#qPosts.getBody()#</p>
 							<p class="summary">
 								<strong>Categoria:</strong> <cfif not arrayIsEmpty(qPosts.getCategories())> #qPosts.getCategories()[1].getBlogCategory().getName()# <cfelse>Não infomada</cfif> 
-								<strong>Comentários:</strong> #arrayLen(qPosts.getComments())#
+								
 							</p>
 						<cfelse>
 							<h5>
@@ -79,42 +81,47 @@
 							<p>
 								<a href="#event.getHTMLBaseURL()#index.cfm/blog/exportar-para-pdf/#variables.idPost#" target="_new"><img src="#event.getHTMLBaseURL()#assets/images/export_pdf.png" border="0"/></a>
 							</p>
-							<h3>
-								<strong>Comentários:</strong> (#qPosts.qtdComentarios#)
-							</h3>
-							<div class="clr hline">&nbsp;</div>
-							<div class="clr comments">
-								<ul>
-									<!-- Start Comment -->
-									<cfif(structKeyExists(event.getRoutedStruct(),"tipoDeConsulta") && not compareNoCase(event.getRoutedStruct().tipoDeConsulta,"orm"))>
-										<cfloop array="#qPosts.getComments()#" index="c">
-										<li>
-											<p>
-												<strong>Postado em:</strong> #lsDateFormat(c.getCreatedDateTime(), 'dd/mm/yyyy')# por #qComentarioPosts.getAuthor()#
-											</p>
-											<p>
-												#c.getComment()#
-											</p>
-											<div class="clr hline">&nbsp;</div>
-										</li>
-										</cfloop>
-									<cfelse>
-										<cfloop query="qComentarioPosts">
-										<li>
-											<p>
-												<strong>Postado em:</strong> #qComentarioPosts.dataHoraSistema# por #qComentarioPosts.author#
-											</p>
-											<p>
-												#qComentarioPosts.comment#
-											</p>
-											<div class="clr hline">&nbsp;</div>
-										</li>
-										</cfloop>
-									</cfif>
-									<!-- End Comment -->
-								</ul>
-							</div>
 						</cfif>
+						<h3>
+							<strong>Comentários:</strong>
+							<cfif(structKeyExists(event.getRoutedStruct(),"tipoDeConsulta") && not compareNoCase(event.getRoutedStruct().tipoDeConsulta,"orm"))>
+								( #arrayLen(qPosts.getComments())# )
+							<cfelse>
+								(#qPosts.qtdComentarios#)
+							</cfif>
+						</h3>
+						<div class="clr hline">&nbsp;</div>
+						<div class="clr comments">
+							<ul>
+								<!-- Start Comment -->
+								<cfif(structKeyExists(event.getRoutedStruct(),"tipoDeConsulta") && not compareNoCase(event.getRoutedStruct().tipoDeConsulta,"orm"))>
+									<cfloop array="#qPosts.getComments()#" index="c">
+									<li>
+										<p>
+											<strong>Postado em:</strong> #lsDateFormat(c.getCreatedDateTime(), 'dd/mm/yyyy')# por #c.getAuthor()#
+										</p>
+										<p>
+											#c.getComment()#
+										</p>
+										<div class="clr hline">&nbsp;</div>
+									</li>
+									</cfloop>
+								<cfelse>
+									<cfloop query="qComentarioPosts">
+									<li>
+										<p>
+											<strong>Postado em:</strong> #qComentarioPosts.dataHoraSistema# por #qComentarioPosts.author#
+										</p>
+										<p>
+											#qComentarioPosts.comment#
+										</p>
+										<div class="clr hline">&nbsp;</div>
+									</li>
+									</cfloop>
+								</cfif>
+								<!-- End Comment -->
+							</ul>
+						</div>
 						<!-- End Blog Post -->
 						<h3>Postar Comentário</h3>
 						<div class="clr hline">&nbsp;</div>

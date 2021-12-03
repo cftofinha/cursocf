@@ -1,6 +1,6 @@
-﻿<cfif isDefined("session.usuario")>
-	<cflocation url="#event.getHTMLBaseURL()#index.cfm/area-restrita" addtoken="false">
-<cfabort>
+﻿<cfif not isDefined("session.usuario")>
+	<cflocation url="#event.getHTMLBaseURL()#index.cfm/login" addtoken="false">
+	<cfabort>
 </cfif>
 <cfoutput>
 <!doctype html>
@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>Login do usuário</title>
+	<title>Área restrita do usuário</title>
 
 	<meta name="description" content="ColdBox Application Template">
     <meta name="author" content="Ortus Solutions, Corp">
@@ -38,16 +38,13 @@
 			<ul class="nav navbar-nav ml-auto">
 				<li class="nav-item dropdown">
 					<a href="##" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-info-circle"></i> About <b class="caret"></b>
+						<i class="fa fa-info-circle"></i> Opções <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
 							<a href="" class="dropdown-item text-light bg-dark">
 								<strong>#getColdBoxSetting("codename")# (#getColdBoxSetting("suffix")#)</strong>
 							</a>
-							<a href="https://coldbox.ortusbooks.com" class="dropdown-item text-light bg-dark"><i class="fas fa-book"></i> Help Manual</a>
-							<a href="https://ortussolutions.atlassian.net/browse/COLDBOX" class="dropdown-item text-light bg-dark"><i class="fa fa-fire"></i> Report a Bug</a>
-							<a href="https://github.com/ColdBox/coldbox-platform/stargazers" class="dropdown-item text-light bg-dark"><i class="fa fa-star"></i> Star Us</a>
-							<a href="https://www.ortussolutions.com/services/support" class="dropdown-item text-light bg-dark"><i class="fa fa-home"></i> Professional Support</a>
+							<a href="#event.getHTMLBaseURL()#index.cfm/logout" class="dropdown-item text-light bg-dark"><i class="fas fa-book"></i> Sair do Sistema</a>
 							<div class="dropdown-divider"></div>
 							<img class="rounded mx-auto d-block" width="150" src="includes/images/ColdBoxLogo2015_300.png" alt="logo"/>
 					</div>
