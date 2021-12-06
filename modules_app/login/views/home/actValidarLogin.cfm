@@ -9,12 +9,11 @@
 		<!---<cfdump var="AQUI">--->
 	<cfelse>
 		<cfscript>
-			variables.senhaHash = hash(form.senha, 'SHA-256', 'UTF-8');
-			qAutenticar = createObject("component","login.models.Loginusuario").getAutenticar(login: form.login, password: variables.senhaHash);
-			
+			qAutenticar = createObject("component","login.models.Loginusuario").getAutenticar(login: form.login);
 			//writeDump(qAutenticar);abort;
-			if(qAutenticar.recordCount){
-				
+			variables.dataHoraAtual = lsDateFormat(now(), 'yyyy-mm-dd') &" "& lsTimeFormat(now(), 'HH:mm:ss');
+			
+			if(qAutenticar.recordcount eq 1 and not compareNoCase(Hash(qAutenticar.salt & form.senha, 'SHA-256', 'UTF-8'), qAutenticar.password)){
 				//definindo uma struct do usuário em sessão
 				usuario = structNew();
 				usuario.idUsuario			=	qAutenticar.userid;
@@ -26,19 +25,32 @@
 				
 				session.usuario 			= usuario; //definido a estrutura em sessão
 				session.statusLogin			= true;
+				
+				cflogin(idletimeout=3600) {
+					cfloginuser(name="#form.login#", password="#form.senha#", roles="usuario");
+ 				}
+ 				
+ 				cfcookie(name="loginUsuario", value="#session.usuario.loginUsuario#", expires="never");
+ 				
+ 				location( url="#event.getHTMLBaseURL()#index.cfm/area-restrita", addtoken="false"  );
+				
+			} else {
+				session.codErro = 403;
+				session.msgErro = "Login inválido";
+				location( url="#event.getHTMLBaseURL()#index.cfm/login", addtoken="false"  );
 			}
 		</cfscript>
 		
 	</cfif>
 	
-	<cflogin>
+	<!---<cflogin>
 		<cfloginuser name="#form.login#" password="#form.senha#" roles="usuario">
 	</cflogin>
 	<cfif isDefined("form.remember")>
 		<cfcookie name="loginUsuario" value="#session.usuario.loginUsuario#" expires="never">
 	</cfif>
 	
-	<cflocation url="#event.getHTMLBaseURL()#index.cfm/area-restrita" addtoken="false">
+	<cflocation url="#event.getHTMLBaseURL()#index.cfm/area-restrita" addtoken="false">--->
 	
 <cfelse>
 	<!---<cfdump var="AQUI 2">--->

@@ -6,7 +6,6 @@
 	 --->
 	<cffunction name="getAutenticar" access="remote" returntype="query">
 		<cfargument name="login" required="true" type="string">
-		<cfargument name="password" required="true" type="string">
 		
 		<cfset var qCons = "" />
 		<cfset var strRetorno = {} />
@@ -20,9 +19,9 @@
 					,username
 					,password
 					,lastlogin
+					,salt
 				from users
 				where username = <cfqueryparam value="#arguments.login#" cfsqltype="cf_sql_varchar" maxlength="50">
-				and password = <cfqueryparam value="#arguments.password#" cfsqltype="cf_sql_varchar" maxlength="255">
 			</cfquery>
 			<cfset strRetorno.erro = 0 />
 			

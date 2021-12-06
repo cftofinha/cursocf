@@ -4,6 +4,12 @@
 		<p class="lead text-muted">
 			Utilize o formulário abaixo para efetuar login e lembre-se que nunca compartilhamos suas informações com mais ninguém 
 		</p>
+		<cfif isDefined("session.msgErro")>
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<strong>ERRO #session.codErro#!</strong>#session.msgErro#
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		</cfif>
 		<div class="card">
 			<div class="card-body">
 				<form name="formLogin" id="formLogin" action="#event.getHTMLBaseURL()#index.cfm/login/validar-login" method="post">
