@@ -12,7 +12,7 @@
 		</cfif>
 		<div class="card">
 			<div class="card-body">
-				<form name="formLogin" id="formLogin" action="#event.getHTMLBaseURL()#index.cfm/login/validar-login" method="post">
+				<form name="formLogin" id="formLogin" action="" method="post">
 					<div class="form-group">
 						<label for="login">Login de Acesso</label>
 						<input type="text" name="login" id="login" placeholder="Digite seu login" maxlength="50" class="form-control">
@@ -27,7 +27,7 @@
 						<label class="form-check-label">Lembrar minhas credenciais</small>
 					</div>
 					<br />
-					<button type="submit" class="btn btn-primary">Entrar no Sistema</button>
+					<button id="btnLogin" type="button" class="btn btn-primary">Entrar no Sistema</button>
 				</form>
 			</div>
 		</div>
