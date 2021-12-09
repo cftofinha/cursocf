@@ -1,5 +1,5 @@
 <!---<cfdump var="#form#">
-<cfdump var="#hash('cf123@', 'SHA-256', 'UTF-8')#">
+<!---<cfdump var="#hash('cf123@', 'SHA-256', 'UTF-8')#">--->
 <cfabort>--->
 <cfif isDefined("form.login") and isDefined("form.senha")>
 	<cfif not compareNoCase(form.login, "") and not compareNoCase(form.senha, "")>
