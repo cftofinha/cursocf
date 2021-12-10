@@ -1,4 +1,4 @@
-﻿<cfset qCategorias = createObject("component","area-restrita.models.CategoriasBlog").getCategorias() />
+﻿<cfset qCategorias = createObject("component","area-restrita.models.CategoriasBlog").getCategorias(condicoesFiltro: "0 = 0") />
 
 <cfif structKeyExists(event.getRoutedStruct(),"id")>
 	<cfset variables.condicoes = "blogpostid = " & event.getRoutedStruct().id />

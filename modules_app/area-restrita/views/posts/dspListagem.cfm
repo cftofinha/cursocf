@@ -16,16 +16,19 @@
 	
 	<div class="album py-5 bg-light">
 		<div class="container">
-			<table class="table">
+			<h3><a href="#event.getHTMLBaseURL()#index.cfm/area-restrita/cadastrar-post" class="btn btn-primary my-2">Cadastrar Novo Post</a></h3>
+			<table id="tabelaRegistros" class="display" style="width:100%">
 				<thead>
 					<tr>
 						<th scope="col">##</th>
 						<th scope="col">Titulo</th>
+						<th scope="col">Categoria</th>
+						<th scope="col">Comentários</th>
 						<th scope="col">Data de Postagem</th>
 						<th scope="col">Ações</th>
 					</tr>
 				</thead>
-				<tbody>
+				<!---<tbody>
 					<cfloop query="qCons">
 						<tr>
 							<th scope="row">#qCons.currentRow#</th>
@@ -38,7 +41,7 @@
 							</td>
 						</tr>
 					</cfloop>
-				</tbody>
+				</tbody>--->
 			</table>
 		</div>
 	</div>

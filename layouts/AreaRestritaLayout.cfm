@@ -95,6 +95,8 @@
 	</script>
 	<cfif listContains(event.getCurrentRoutedURL(),"cadastrar-categoria") or listContains(event.getCurrentRoutedURL(),"alterar-categoria")>
 		<script src="#event.getHTMLBaseURL()#assets/js/app.categorias.js"></script>
+	<cfelseif listContains(event.getCurrentRoutedURL(),"listar-posts")>
+		<script src="#event.getHTMLBaseURL()#assets/js/app.listar-posts.js"></script>
 	</cfif>
 </body>
 </html>
