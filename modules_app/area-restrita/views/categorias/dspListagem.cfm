@@ -16,7 +16,7 @@
 	
 	<div class="album py-5 bg-light">
 		<div class="container">
-			<table class="table">
+			<table id="tabelaRegistros" class="display" style="width:100%">
 				<thead>
 					<tr>
 						<th scope="col">##</th>
